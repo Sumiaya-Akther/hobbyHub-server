@@ -122,7 +122,7 @@ async function run() {
         console.error("Error updating group:", err);
         res.status(500).json({ message: "Internal server error" });
       }
-    })
+    });
 
     //-----------
 
@@ -131,14 +131,14 @@ async function run() {
     app.get('/users', async (req, res) => {
       const result = await userCollection.find().toArray();
       res.send(result)
-    })
+    });
 
     app.post('/users', async (req, res) => {
       const userProfile = req.body;
       console.log(userProfile);
       const result = await userCollection.insertOne(userProfile);
       res.send(result);
-    })
+    });
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -151,8 +151,8 @@ run().catch(console.dir);
 
 app.get('/', (req, res) => {
   res.send('Hello hobby hub!')
-})
+});
 
 app.listen(port, () => {
   console.log(`Hobby hub listening on port ${port}`)
-})
+});
