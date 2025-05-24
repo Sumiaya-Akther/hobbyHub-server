@@ -12,8 +12,6 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mdnalzr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
-
-
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -91,6 +89,7 @@ async function run() {
 
 
     // DELETE group by ID
+
     app.delete("/deletegroups/:id", async (req, res) => {
       try {
         const id = req.params.id;
@@ -127,6 +126,7 @@ async function run() {
     //-----------
 
     //user related api
+
 
     app.get('/users', async (req, res) => {
       const result = await userCollection.find().toArray();
