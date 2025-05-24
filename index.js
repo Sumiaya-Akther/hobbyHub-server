@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -55,15 +55,77 @@ async function run() {
 
     })
 
+
+    //-----------------
+
+
+    app.get("/mygroups", async (req, res) => {
+  try {
+    const userEmail = req.query.email;
+    if (!userEmail) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const userGroups = await groupsCollection.find({ userEmail }).toArray();
+    res.status(200).json(userGroups);
+  } catch (error) {
+    console.error("Error fetching user groups:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+    // DELETE group by ID
+app.delete("/deletegroups/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    
+    const result = await groupsCollection.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 1) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "Group not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting group:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.put('/updategroup',async(req,res)=>{
+ try{ 
+      const data=req.body;
+      const filter={_id:new ObjectId(data.groupId)};
+      const replace=data
+  
+      console.log(replace,filter);
+      const result=await groupsCollection.replaceOne(filter, replace);
+      res.status(200).json(result);
+    }catch(err){
+      console.error("Error updating group:", err);
+       res.status(500).json({ message: "Internal server error" });
+    }
+})
+
+    //-----------
+
+
     //user related api
     
+    app.get('/users', async(req, res)=>{
+        const result = await userCollection.find().toArray();
+        res.send(result)
+    })
+
+
     app.post('/users', async(req, res) => {
         const userProfile = req.body;
         console.log(userProfile);
         const result = await userCollection.insertOne(userProfile);
         res.send(result);
     })
-
 
 
 
