@@ -40,12 +40,26 @@ async function run() {
 
 
 
+
+    //all group api call
+
     app.get('/groups', async (req, res) => {
       //   const cursor = groupsCollection.find();
       //   const result = await cursor.toArray();
       const result = await groupsCollection.find().toArray();
       res.send(result);
     });
+
+
+    //group details api call
+
+    app.get('/group/:id', async (req, res) => {
+      const id = req.params.id;
+      const group = await groupsCollection.findOne({ _id: new ObjectId(id) });
+      res.send(group);
+    });
+
+
 
     app.post('/groups', async (req, res) => {
 
@@ -112,7 +126,6 @@ async function run() {
 
     //-----------
 
-
     //user related api
 
     app.get('/users', async (req, res) => {
@@ -120,15 +133,12 @@ async function run() {
       res.send(result)
     })
 
-
     app.post('/users', async (req, res) => {
       const userProfile = req.body;
       console.log(userProfile);
       const result = await userCollection.insertOne(userProfile);
       res.send(result);
     })
-
-
 
 
 
