@@ -35,30 +35,38 @@
 "express": "^4.18.2",
 "mongodb": "^6.9.0",
 "nodemon": "^3.1.0"
-
-
-## Folder Structure
+```
+---
+## 📁 Folder Structure
 
 hobbyhub-server/
 ├─ index.js
 ├─ .env
 ├─ package.json
 
+---
+``
 ## ⚙️ How to Run Locally
 
 git clone https://github.com/your-username/hobbyhub-server.git
 cd hobbyhub-server
 npm install
 
+---
+``
 ## Create .env file
 
 DB_USER=your_db_user
 DB_PASS=your_db_pass
 
+---
+
 ## Start the Server
 nodemon index.js
 
 Server will run at: http://localhost:3000
+
+---
 
 ## 🔗 API Endpoints Overview
 
@@ -74,6 +82,9 @@ Server will run at: http://localhost:3000
 | GET    | `/users`            | Get all users            |
 | POST   | `/users`            | Add a new user           |
 
+---
+
 👩‍💻 Author
 Sumiaya Akther
 GitHub: @Sumiaya-Akther
+```
