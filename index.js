@@ -60,6 +60,7 @@ async function run() {
 
 
     app.post('/groups', async (req, res) => {
+      
 
       const newGroup = req.body;
       console.log(newGroup);
