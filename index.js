@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 });
 async function run() {
   try {
-   // await client.connect();
+    // await client.connect();
 
 
     const groupsCollection = client.db('groupDB').collection('groups');
@@ -32,7 +32,7 @@ async function run() {
     // API Route in server to return 6 ongoing featuredgroups
 
     app.get('/featured-groups', async (req, res) => {
-      const groups = await groupsCollection.find({}).sort({ startDate: 1 }).limit(6).toArray();
+      const groups = await groupsCollection.find({}).sort({ startDate: 1 }).limit(8).toArray();
       res.send(groups);
     });
 
@@ -57,11 +57,37 @@ async function run() {
       res.send(group);
     });
 
+    //------------------->
+
+    // TOTAL groups
+    app.get('/groups/count', async (req, res) => {
+      try {
+        const total = await groupsCollection.estimatedDocumentCount();
+        res.json({ count: total });
+      } catch (e) {
+        res.status(500).json({ message: e.message });
+      }
+    });
+
+    // LOGGED-IN user’s groups
+    app.get('/mygroups/count', async (req, res) => {
+      const email = req.query.email;
+      if (!email) return res.status(400).json({ message: 'email required' });
+
+      try {
+        const myCount = await groupsCollection.countDocuments({ userEmail: email });
+        res.json({ count: myCount });
+      } catch (e) {
+        res.status(500).json({ message: e.message });
+      }
+    });
+
+
+    //--------------------->
+
 
 
     app.post('/groups', async (req, res) => {
-      
-
       const newGroup = req.body;
       console.log(newGroup);
       const result = await groupsCollection.insertOne(newGroup);
