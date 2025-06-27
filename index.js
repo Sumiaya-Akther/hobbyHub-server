@@ -57,6 +57,19 @@ async function run() {
       res.send(group);
     });
 
+
+
+    //--------------->
+
+// GET /groups?category=Fishing&sortBy=name&sort=asc
+
+
+
+
+
+
+
+
     //------------------->
 
     // TOTAL groups
